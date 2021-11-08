@@ -1,0 +1,32 @@
+version: "3.2"
+services:
+  nodejs:
+    build:
+      context: .
+    image: tom/353_final
+    networks:
+      - frontend
+      - backend
+    environment:
+      - MYSQL_HOST=353-app
+      - MYSQL_USER=user
+      - MYSQL_PASS=pass
+      - MYSQL_DB=db
+    volumes:
+      - ./www/:/var/www/html/
+    ports:
+      - "30001:8005"
+    container_name: 353_final
+  mysql:
+    image: mysql:5.7
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+      - MYSQL_DATABASE=db
+    container_name: 353_final_sql
+networks:
+  frontend:
+  backend:
