@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
     console.log(connectionOptions);
 
     var connection = mysql.createConnection(connectionOptions);
-    var queryStr = SELECT * FROM MOE_ITEM_T;
+    var queryStr = SELECT * FROM DB_ITEM_T;
 
     connection.connect();
 
