@@ -6,26 +6,24 @@ var app = express();
 var port  = process.env.PORT || 8005;
 var responseStr = "MySQL Data:";
 
-app.get('/', (req, res) => {
-    var mysqlHost = process.env.MYSQL_HOST || 'localhost';
-    var mysqlPort = process.env.MYSQL_PORT || '3306';
-    var mysqlUser = process.env.MYSQL_USER || 'root';
-    var mysqlPass = process.env.MYSQL_PASS || 'root';
-    var mysqlDB = process.env.MYSQL_DB || 'node_db';
 
-    var connectionOptions = {
-        host: mysqlHost,
-        port: mysqlPort,
-        user: mysqlUser,
-        password: mysqlPass,
-        database: mysqlDB
-    };
+
+//load the webpage, display all posts
+app.get('/', (req, res) => {
+    console.log("got a request");
+
 
     console.log('MySQL Connection config:');
-    console.log(connectionOptions);
 
-    var connection = mysql.createConnection(connectionOptions);
-    var queryStr = SELECT * FROM DB_ITEM_T;
+    var connection = mysql.createConnection({
+        host: "353-app",
+        port: '3306',
+        user: "user",
+        password: "pass",
+        database: "db"
+    });
+
+    //var queryStr = SELECT * FROM DB_ITEM_T;
 
     connection.connect();
 
