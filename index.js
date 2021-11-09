@@ -19,12 +19,6 @@ var connection = mysql.createConnection({
 
 
 
-//load the webpage, display all posts
-app.get('/', (req, res) => {
-    console.log("got a request");
-    res.send('ok');
-});
-
 // app.get('/connect', (req, res) => {
 //     connection.connect((err)=> {
 //         if (err) console.log(err);
@@ -42,14 +36,14 @@ app.get('/', (req, res) => {
 //     res.send("ok");
 // })
 
-app.get('/createTABLE', (req, res) => {
+app.get('/createTable', (req, res) => {
 
     connection.connect((err)=> {
         if (err) console.log(err);
         console.log("connected");
     });
 
-    
+
     var sql = "CREATE TABLE staff (name VARCHAR(255), address VARCHAR(255))";
     connection.query(sql, (err, result) => {
         if (err) throw err;
@@ -89,6 +83,7 @@ app.get('/select', (req, res) => {
     
     res.send("ok");
 });
+
 
 app.use('/', express.static('pages'));
 app.listen(PORT, HOST);
