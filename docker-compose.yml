@@ -8,7 +8,7 @@ services:
       - frontend
       - backend
     environment:
-      - MYSQL_HOST=353-app
+      - MYSQL_HOST=353_final_sql
       - MYSQL_USER=user
       - MYSQL_PASS=pass
       - MYSQL_DB=db
@@ -27,6 +27,8 @@ services:
       - MYSQL_PASSWORD=pass
       - MYSQL_DATABASE=db
     container_name: 353_final_sql
+    ports: 
+      - "3306:3306"
 networks:
   frontend:
   backend:

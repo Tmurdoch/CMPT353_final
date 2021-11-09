@@ -1,54 +1,94 @@
 var mysql = require('mysql');
 var express = require('express');
-const { response } = require('express');
+const bodyParser = require("body-parser");
 
 var app = express();
-var port  = process.env.PORT || 8005;
+app.use(bodyParser.urlencoded({extended: true}));
+
+var PORT  = 8005;
+var HOST = '0.0.0.0';
 var responseStr = "MySQL Data:";
+
+var connection = mysql.createConnection({
+    host: "353_final_sql",
+    port: 3306,
+    user: "user",
+    password: "pass",
+    database: "db"
+});
 
 
 
 //load the webpage, display all posts
 app.get('/', (req, res) => {
     console.log("got a request");
-
-
-    console.log('MySQL Connection config:');
-
-    var connection = mysql.createConnection({
-        host: "353-app",
-        port: '3306',
-        user: "user",
-        password: "pass",
-        database: "db"
-    });
-
-    //var queryStr = SELECT * FROM DB_ITEM_T;
-
-    connection.connect();
-
-    connection.query(queryStr, (error, results, fields) => {
-        if (error){throw error;}
-
-        responseStr = '';
-
-        results.forEach((data) => {
-            responseStr += data.ITEM_NAME + ' : ';
-            console.log(data);
-        });
-
-        if (responseStr.length == 0)
-            responseStr = 'No records found';
-
-        console.log(responseStr);
-
-        res.status(200).send(responseStr);
-    });
-
-    connection.end();
-
+    res.send('ok');
 });
 
-app.listen(port, () => {
-    console.log('mySQL app listening on port ' + port);
+// app.get('/connect', (req, res) => {
+//     connection.connect((err)=> {
+//         if (err) console.log(err);
+//         console.log("Connected.");
+//     });
+
+//     res.send("ok");
+// })
+
+// app.get('/end', (req, res) => {
+//     connection.end((err)=>{
+//         if (err) console.log(err);
+//         console.log("off");
+//     });
+//     res.send("ok");
+// })
+
+app.get('/createTABLE', (req, res) => {
+
+    connection.connect((err)=> {
+        if (err) console.log(err);
+        console.log("connected");
+    });
+
+    
+    var sql = "CREATE TABLE staff (name VARCHAR(255), address VARCHAR(255))";
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log("Table created");
+    });
+    res.send("table created");
+
+
+    connection.end((err) => {
+        if (err) console.log(err);
+        console.log("off");
+    });
 })
+
+app.get('/insert', (req, res) =>{
+    var sql = "INSERT INTO staff (name, address) VALUES ('tom', '1234 lane lane')";
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log("INSERT ok");
+    });
+    res.send("ok");
+})
+
+app.get('/select', (req, res) => {
+    var data = "";
+
+    var sql = 'SELECT * FROM staff';
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+
+        Object.keys(result).forEach((key) => {
+            var row = result[key];
+            console.log(row.name);
+            console.log(row.address)
+        });
+    });
+    
+    res.send("ok");
+});
+
+app.use('/', express.static('pages'));
+app.listen(PORT, HOST);
