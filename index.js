@@ -18,24 +18,6 @@ var connection = mysql.createConnection({
 });
 
 
-
-// app.get('/connect', (req, res) => {
-//     connection.connect((err)=> {
-//         if (err) console.log(err);
-//         console.log("Connected.");
-//     });
-
-//     res.send("ok");
-// })
-
-// app.get('/end', (req, res) => {
-//     connection.end((err)=>{
-//         if (err) console.log(err);
-//         console.log("off");
-//     });
-//     res.send("ok");
-// })
-
 app.get('/createTable', (req, res) => {
 
     connection.connect((err)=> {
