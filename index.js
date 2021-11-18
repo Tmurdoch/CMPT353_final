@@ -31,6 +31,19 @@ app.post('/add_staff', (req, res) =>{
     res.send("ok");
 });
 
+app.post('/add_customer', (req, res) =>{
+    var name = req.body.name;
+    var address = req.body.address;
+
+
+    var sql = "INSERT INTO customers (name, address) VALUES ('" + name + "', '" + address + "' )";
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log("INSERT ok");
+    });
+    res.send("ok");
+});
+
 
 app.get('/createTable', (req, res) => {
 
@@ -40,7 +53,7 @@ app.get('/createTable', (req, res) => {
     });
 
 
-    var sql = "CREATE TABLE staff (name VARCHAR(255), address VARCHAR(255))";
+    var sql = "CREATE TABLE customers (name VARCHAR(255), address VARCHAR(255))";
     connection.query(sql, (err, result) => {
         if (err) throw err;
         console.log("Table created");
