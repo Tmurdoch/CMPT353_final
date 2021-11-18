@@ -18,6 +18,16 @@ var connection = mysql.createConnection({
 });
 
 
+app.post('/add_staff', (req, res) =>{
+    var sql = "INSERT INTO staff (name, address) VALUES ('tom', '1234 lane lane')";
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log("INSERT ok");
+    });
+    res.send("ok");
+});
+
+
 app.get('/createTable', (req, res) => {
 
     connection.connect((err)=> {
