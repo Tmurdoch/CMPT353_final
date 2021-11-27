@@ -3,7 +3,10 @@ var express = require('express');
 const bodyParser = require("body-parser");
 
 var app = express();
-app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(bodyParser.json())
 
 var PORT  = 8005;
 var HOST = '0.0.0.0';
@@ -23,8 +26,9 @@ app.post('/add_staff', (req, res) =>{
     var address = req.body.address;
 
 
-    var sql = "INSERT INTO staff (name, address) VALUES ('" + name + "', '" + address + "' )";
-    connection.query(sql, (err, result) => {
+    var sql = "INSERT INTO staff (name, address) VALUES ?";
+    var values = [[name, address]]
+    connection.query(sql, [values], (err, result) => {
         if (err) throw err;
         console.log("INSERT ok");
     });
@@ -36,8 +40,9 @@ app.post('/add_customer', (req, res) =>{
     var address = req.body.address;
 
 
-    var sql = "INSERT INTO customers (name, address) VALUES ('" + name + "', '" + address + "' )";
-    connection.query(sql, (err, result) => {
+    var sql = "INSERT INTO customers (name, address) VALUES ?";
+    var values = [[name, address]];
+    connection.query(sql, [values], (err, result) => {
         if (err) throw err;
         console.log("INSERT ok");
     });
