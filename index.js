@@ -20,6 +20,9 @@ var connection = mysql.createConnection({
     database: "db"
 });
 
+app.post('/login', (req, res) => {
+    console.log("tried to log in");
+})
 
 app.post('/add_staff', (req, res) =>{
     var name = req.body.name;
