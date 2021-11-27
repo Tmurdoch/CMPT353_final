@@ -21,7 +21,9 @@ var connection = mysql.createConnection({
 });
 
 app.post('/login', (req, res) => {
-    console.log("tried to log in");
+    console.log(req.body.email);
+    console.log(req.body.pass);
+
 })
 
 app.post('/add_staff', (req, res) =>{
