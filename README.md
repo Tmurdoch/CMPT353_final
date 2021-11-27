@@ -2,7 +2,7 @@
 
 
 database report method for keeping track of homeless people
-
+deleting from database requires the unique ID of object for deletion
 
 
 PART A: 
