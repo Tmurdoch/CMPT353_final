@@ -1,6 +1,8 @@
 # 353 final
 
 
+took login page template from: https://colorlib.com/wp/template/login-form-v2/
+
 database report method for keeping track of homeless people
 deleting from database requires the unique ID of object for deletion
 
