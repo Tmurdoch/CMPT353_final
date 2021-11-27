@@ -21,8 +21,24 @@ var connection = mysql.createConnection({
 });
 
 app.post('/login', (req, res) => {
-    console.log(req.body.email);
-    console.log(req.body.pass);
+    var email = req.body.email;
+    var password = req.body.pass;
+
+    var sql = "SELECT email, password FROM staff WHERE email = '" + email + "' AND password= '" + password + "'";
+    
+
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log("QUERY ok")
+        if (result == []) {
+            location.reload();
+        }
+        else {
+            res.writeHead(301,
+                {Location: '/landing_staff.html'});
+                res.end();
+        }
+    })
 
 })
 
