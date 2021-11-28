@@ -7,6 +7,7 @@ database report method for keeping track of homeless people
 deleting from database requires the unique ID of object for deletion
 
 
+
 PART A: 
 
 workflow for staff
@@ -30,3 +31,5 @@ NOTES:
 sudo docker-compose up --build //should run 2 containers
 
 app runs at port 30001
+
+root@root.root is email for admin login, password is 1234

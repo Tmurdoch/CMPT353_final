@@ -34,10 +34,17 @@ app.post('/login', (req, res) => {
             location.reload();
         }
         else {
-            res.writeHead(301,
-                {Location: '/landing_staff.html'});
-                res.end();
-        }
+            if (email == "root@root.root") {
+                res.writeHead(301, 
+                    {Location: '/landing_root.html'});
+                    res.end();
+            }
+            else {
+                res.writeHead(301,
+                    {Location: '/landing_staff.html'});
+                    res.end();
+            }
+            }
     })
 
 })
