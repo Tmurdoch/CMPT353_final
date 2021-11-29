@@ -1,0 +1,55 @@
+
+.container {
+    float: right;
+    text-align: center;
+    border: 1px solid green;
+}
+.container ul {
+    border: 2px solid red;
+    display: inline-block;
+    margin: 10px 0;
+    padding: 2px;
+}
+.container li {
+    display: inline-block;
+}
+.container li a {
+    display: inline-block;
+    background: #444;
+    color: #FFF;
+    padding: 5px;
+    text-decoration: none;
+}
+
+/* #answer {
+    float:right; 
+    background:Red;
+    width:25%;
+    height:280px;
+    text-align: center;
+}
+ul {
+    display:inline-table;
+}
+li {
+    display:inline;
+} */
+#middlebox{
+    float:left; 
+    background:Green;
+    width:50%;
+    height:280px;
+}
+#rightbox{
+    float:right;
+    background:blue;
+    width:25%;
+    height:280px;
+}
+h1{
+    color:green;
+    text-align:center;
+}
+form { 
+    float:left;
+}
