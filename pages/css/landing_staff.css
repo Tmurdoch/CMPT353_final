@@ -1,29 +1,8 @@
 
-.container {
-    float: right;
-    text-align: center;
-    border: 1px solid green;
-}
-.container ul {
-    border: 2px solid red;
-    display: inline-block;
-    margin: 10px 0;
-    padding: 2px;
-}
-.container li {
-    display: inline-block;
-}
-.container li a {
-    display: inline-block;
-    background: #444;
-    color: #FFF;
-    padding: 5px;
-    text-decoration: none;
-}
 
-/* #answer {
+#answer {
     float:right; 
-    background:Red;
+    background:rgb(111, 0, 255);
     width:25%;
     height:280px;
     text-align: center;
@@ -32,8 +11,8 @@ ul {
     display:inline-table;
 }
 li {
-    display:inline;
-} */
+    display:block;
+}
 #middlebox{
     float:left; 
     background:Green;
