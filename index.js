@@ -49,6 +49,33 @@ app.post('/login', (req, res) => {
 
 })
 
+app.get('/show_all_customers', (req, res) => {
+        //query the db and get customers back, display in html page for landing_staff somehow
+        //TODO: have onclick to select from all customers?
+        var sql = "SELECT * FROM customers";
+        connection.query(sql, (err, result) =>{ 
+            if (err) throw err;
+            
+            for (var i of result) {
+                var name = i.name;
+                var age = i.age;
+                var date = i.date;
+                var summary = i.summary;
+                var other_info = i.other_info;
+
+                var response = new Object();
+                response.name = name;    
+                response.age = age;
+                response.date = date;
+                response.summary = summary;
+                response.other_info = other_info;     
+        
+                res.send(JSON.stringify(response));
+            }
+        });
+        
+})
+
 app.post('/add_staff', (req, res) =>{
     var name = req.body.name;
     var address = req.body.address;
@@ -65,16 +92,19 @@ app.post('/add_staff', (req, res) =>{
 
 app.post('/add_customer', (req, res) =>{
     var name = req.body.name;
-    var address = req.body.address;
+    var age = req.body.age;
+    var date = req.body.date;
+    var summary = req.body.summary;
+    var other_info = req.body.other_info;
 
 
-    var sql = "INSERT INTO customers (name, address) VALUES ?";
-    var values = [[name, address]];
+    var sql = "INSERT INTO customers (name, age, date, summary, other_info) VALUES ?";
+    var values = [[name, age, date, summary, other_info]];
     connection.query(sql, [values], (err, result) => {
         if (err) throw err;
         console.log("INSERT ok");
     });
-    res.send("ok");
+    
 });
 
 

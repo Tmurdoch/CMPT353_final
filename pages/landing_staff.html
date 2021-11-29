@@ -3,6 +3,31 @@
 <head>
 <h1>Customers</h1>
 </head>
+<script>
+    function update_html() {
+        /* idea: xml request for posts file
+            - settimeout to check for new posts in posts file (from index.html)
+            - if post made in THIS script, just call this function  */
+        
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/show_all_customers", true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                var res = JSON.parse(xhttp.responseText);
+                var list = document.getElementById('customers');
+
+                var entry = document.createElement('li');
+                entry.appendChild(document.createTextNode(res.date));
+                list.appendChild(entry);
+
+            }
+        }
+        xhttp.send();
+        
+    }
+    update_html();
+</script>
 
 <body>
     <form action="/add_customer" method="post">
@@ -10,11 +35,27 @@
         <br>
         <input type="text" name="name" id="name" required maxlength="45" >
         <br>
-        <label for="address">Address</label>
+        <label for="age">Age</label>
         <br>
-        <input type="text" name="address" >
+        <input type="text" name="age" >
+        <br>
+        <label for="date">Date</label>
+        <br>
+        <input type="text" name="date" >
+        <br>
+        <label for="summary">Summary of consultation</label><br>
+        <textarea name="summary" rows="10" cols="30">add text</textarea> 
+        <br>
+        <label for="other_info">Other info</label><br>
+        <textarea name="other_info" rows="10" cols="30">(optional)</textarea> 
         <br>
         <input type="submit" value="Submit">
     </form>
 
+
+    <div id="answer"></div>
+    <ul id="customers">
+
+
+    </ul>
 </body>
