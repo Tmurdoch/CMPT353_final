@@ -25,7 +25,7 @@
                     var list = document.getElementById('customers');
                     
                     var entry = document.createElement('li');
-                    entry.appendChild(document.createTextNode(item.date));
+                    entry.appendChild(document.createTextNode(item.name.toString().concat(item.date.toString())));
                     list.appendChild(entry);
                 });
 
