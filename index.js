@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 
+
 var PORT  = 8005;
 var HOST = '0.0.0.0';
 var responseStr = "MySQL Data:";
@@ -47,7 +48,7 @@ app.post('/login', (req, res) => {
             }
     })
 
-})
+});
 
 app.get('/show_all_customers', (req, res) => {
         //query the db and get customers back, display in html page for landing_staff somehow
@@ -56,25 +57,11 @@ app.get('/show_all_customers', (req, res) => {
         connection.query(sql, (err, result) =>{ 
             if (err) throw err;
             
-            for (var i of result) {
-                var name = i.name;
-                var age = i.age;
-                var date = i.date;
-                var summary = i.summary;
-                var other_info = i.other_info;
-
-                var response = new Object();
-                response.name = name;    
-                response.age = age;
-                response.date = date;
-                response.summary = summary;
-                response.other_info = other_info;     
-        
-                res.send(JSON.stringify(response));
-            }
+            res.send(JSON.stringify(result))
+            res.end()
         });
         
-})
+});
 
 app.post('/add_staff', (req, res) =>{
     var name = req.body.name;
