@@ -8,6 +8,7 @@
 </head>
 <script>
     function search_customer() {
+        document.getElementById("search_results").innerHTML = "";
         var query = document.getElementById("search").value;
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/search_customer/" + query, true);
@@ -19,12 +20,11 @@
                 console.log(res);
                 res.forEach((item, index) => {
                     console.log(item);
-                    //print to list
-                    //add button next to each
+                    //display data on customer
                     var entry = document.createElement('li');
-                    var btn = document.createElement("button");
-                    btn.innerHTML = item.name;
-                    entry.appendChild(btn);
+                    all_info = item.name + ", " + item.age + ", date of inquiry: " + item.date + "Summary:" + "other:" + item.other_info;
+                    var info_string = document.createTextNode(all_info);
+                    entry.appendChild(info_string);
                     list.appendChild(entry);
                 });
 
