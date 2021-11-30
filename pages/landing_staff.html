@@ -7,6 +7,12 @@
 <!--===============================================================================================-->
 </head>
 <script>
+
+    function update_customer() { 
+        var query = document.getElementById("search").value;
+        console.log(query);
+    }
+
     function search_customer() {
         document.getElementById("search_results").innerHTML = "";
         var query = document.getElementById("search").value;
@@ -88,10 +94,11 @@
 
 
     <div id="rightbox">
-    <form class="search_customer">
+    <form class="search_customer" action="/delete_customer" method="post">
         <input type="text" name="search" id="search">
         <button type="button" onclick=search_customer() value="Search"></button>
-
+        <input type="submit" value="Delete Customer">
+        <button type="button" onclick=update_customer() value = "Update Customer"></button>
     </form>
     <br>
         <ul id="search_results"></ul>

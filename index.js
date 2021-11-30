@@ -106,6 +106,16 @@ app.post('/add_customer', (req, res) =>{
     
 });
 
+app.post('/delete_customer', (req, res) => {
+    var name = req.body.search;
+
+    var sql = "DELETE FROM customers WHERE name='" + name + "'";
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log("DELETE ok");
+    })
+})
+
 
 app.get('/createTable', (req, res) => {
 
