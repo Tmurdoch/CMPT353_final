@@ -33,3 +33,7 @@ sudo docker-compose up --build //should run 2 containers
 app runs at port 30001
 
 root@root.root is email for admin login, password is 1234
+
+
+PITFALLS:
+    - customers/staff with the same names -> this will mess up search/update

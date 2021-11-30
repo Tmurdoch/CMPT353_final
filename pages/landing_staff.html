@@ -8,9 +8,32 @@
 </head>
 <script>
 
-    function update_customer() { 
+    function setup_update() { 
+        //query database for customer, fill add form, add update button
+        document.getElementById("search_results").innerHTML = "";
         var query = document.getElementById("search").value;
-        console.log(query);
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/search_customer/" + query, true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                const res = JSON.parse(xhttp.responseText);
+                var list = document.getElementById('search_results');
+                
+                res.forEach((item, index) => {
+                    //fill form, 
+                    document.getElementById("name").value = item.name;
+                    document.getElementById("age").value = item.age;
+                    document.getElementById("date").value = item.date;
+                    document.getElementById("summary").value = item.summary;
+                    document.getElementById("other_info").value = item.other_info;
+                });
+                //add update button
+
+            }
+        }
+        xhttp.send();
+        return;
     }
 
     function search_customer() {
@@ -76,17 +99,17 @@
         <br>
         <label for="age">Age</label>
         <br>
-        <input type="text" name="age" >
+        <input type="text" name="age" id="age">
         <br>
         <label for="date">Date</label>
         <br>
-        <input type="text" name="date" >
+        <input type="text" name="date" id="date">
         <br>
         <label for="summary">Summary of consultation</label><br>
-        <textarea name="summary" rows="10" cols="30">add text</textarea> 
+        <textarea name="summary" rows="10" cols="30" id="summary">add text</textarea> 
         <br>
         <label for="other_info">Other info</label><br>
-        <textarea name="other_info" rows="10" cols="30">(optional)</textarea> 
+        <textarea name="other_info" rows="10" cols="30" id="other_info">(optional)</textarea> 
         <br>
         <input type="submit" value="Submit">
     </form>
@@ -98,7 +121,7 @@
         <input type="text" name="search" id="search">
         <button type="button" onclick=search_customer() value="Search"></button>
         <input type="submit" value="Delete Customer">
-        <button type="button" onclick=update_customer() value = "Update Customer"></button>
+        <button type="button" onclick=setup_update() value = "Update Customer"></button>
     </form>
     <br>
         <ul id="search_results"></ul>
