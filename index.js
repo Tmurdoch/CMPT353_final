@@ -63,6 +63,19 @@ app.get('/search_customer/:search', (req, res) => {
 
 });
 
+app.get('/search_staff/:search', (req, res) => {
+    console.log(req.params);
+    var sql = "SELECT * FROM staff WHERE name like '".concat(req.params.search + "'");
+    
+
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        res.send(JSON.stringify(result))
+        res.end();
+    });
+
+});
+
 app.get('/show_all_customers', (req, res) => {
         //query the db and get customers back, display in html page for landing_staff somehow
         //TODO: have onclick to select from all customers?
@@ -75,19 +88,34 @@ app.get('/show_all_customers', (req, res) => {
         
 });
 
+app.get('/show_all_staff', (req, res) => {
+    var sql = "SELECT * FROM staff";
+    connection.query(sql, (err, result) =>{ 
+        if (err) throw err;
+        res.send(JSON.stringify(result))
+        res.end()
+    });
+    
+});
+
+
 app.post('/add_staff', (req, res) =>{
     var name = req.body.name;
+    var age = req.body.age;
+    var date = req.body.date;
     var address = req.body.address;
+    var position = req.body.position;
 
 
-    var sql = "INSERT INTO staff (name, address) VALUES ?";
-    var values = [[name, address]]
+    var sql = "INSERT INTO staff (name, age, date, address, position) VALUES ?";
+    var values = [[name, age, date, address, position]];
     connection.query(sql, [values], (err, result) => {
         if (err) throw err;
         console.log("INSERT ok");
     });
-    res.send("ok");
+    
 });
+
 
 app.post('/add_customer', (req, res) =>{
     var name = req.body.name;
@@ -98,7 +126,7 @@ app.post('/add_customer', (req, res) =>{
 
 
     var sql = "INSERT INTO customers (name, age, date, summary, other_info) VALUES ?";
-    var values = [[name, age, date, summary, other_info]];
+    var values = [[name, age, date, address, position]];
     connection.query(sql, [values], (err, result) => {
         if (err) throw err;
         console.log("INSERT ok");
@@ -110,6 +138,17 @@ app.post('/delete_customer', (req, res) => {
     var name = req.body.search;
 
     var sql = "DELETE FROM customers WHERE name='" + name + "'";
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        console.log("DELETE ok");
+    })
+})
+
+
+app.post('/delete_staff', (req, res) => {
+    var name = req.body.search;
+
+    var sql = "DELETE FROM staff WHERE name='" + name + "'";
     connection.query(sql, (err, result) => {
         if (err) throw err;
         console.log("DELETE ok");
@@ -135,6 +174,32 @@ app.post('/update_customer', (req, res) => {
 
     var sql_insert = "INSERT INTO customers (name, age, date, summary, other_info) VALUES ?";
     var values = [[name, age, date, summary, other_info]];
+    connection.query(sql_insert, [values], (err, result) => {
+        if (err) throw err;
+        console.log("INSERT ok");
+    });
+
+
+});
+
+app.post('/update_staff', (req, res) => {
+    var og_name = req.body.ogname;
+    console.log(og_name);
+    var name = req.body.name;
+    var age = req.body.age;
+    var date = req.body.date;
+    var address = req.body.address;
+    var position = req.body.position;
+    //delete staff with name
+    
+    var sql_delete = "DELETE FROM staff WHERE name='" + og_name + "'";
+    connection.query(sql_delete, (err, result) => {
+        if (err) throw err;
+        console.log("DELETE ok");
+    });
+
+    var sql_insert = "INSERT INTO staff (name, age, date, address, position) VALUES ?";
+    var values = [[name, age, date, address, position]];
     connection.query(sql_insert, [values], (err, result) => {
         if (err) throw err;
         console.log("INSERT ok");

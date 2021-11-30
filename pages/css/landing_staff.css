@@ -41,6 +41,12 @@ h1{
 .search_customer {
     float:left;
 }
+.submit_staff {
+    float: center;
+}
+.search_staff {
+    float:left;
+}
  button{
     height: 25px;
     width: 117px;

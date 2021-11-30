@@ -1,21 +1,161 @@
 <!DOCTYPE html>
 
 <head>
-<h1>ADMIN PAGE</h1>
+<h1>staffs</h1>
+<!--===============================================================================================-->
+<link rel="stylesheet" type="text/css" href="css/landing_staff.css">
+<!--===============================================================================================-->
 </head>
+<script>
+
+    function setup_update() { 
+        //query database for staff, fill add form, add update button
+        var query = document.getElementById("search").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/search_staff/" + query, true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                const res = JSON.parse(xhttp.responseText);
+                var list = document.getElementById('search_results');
+                
+                res.forEach((item, index) => {
+                    //fill form,
+                    document.getElementById("original_name").value = item.name; 
+                    document.getElementById("uname").value = item.name;
+                    document.getElementById("uage").value = item.age;
+                    document.getElementById("udate").value = item.date;
+                    document.getElementById("uaddress").value = item.address;
+                    document.getElementById("uposition").value = item.position;
+                });
+                //add update button
+                document.getElementById("update_staff").hidden = false;
+                document.getElementById("submit_staff").hidden = true;
+
+            }
+        }
+        xhttp.send();
+        return;
+    }
+
+    function search_staff() {
+        document.getElementById("search_results").innerHTML = "";
+        var query = document.getElementById("search").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/search_staff/" + query, true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                const res = JSON.parse(xhttp.responseText);
+                var list = document.getElementById('search_results');
+                console.log(res);
+                res.forEach((item, index) => {
+                    console.log(item);
+                    //display data on staff
+                    var entry = document.createElement('li');
+                    all_info = item.name + ", " + item.age + ", date of inquiry: " + item.date + "address:" + item.address + "position:" + item.position;
+                    var info_string = document.createTextNode(all_info);
+                    entry.appendChild(info_string);
+                    list.appendChild(entry);
+                });
+
+            }
+        }
+        xhttp.send();
+        return;
+    }
+    function update_html() {
+        /* idea: xml request for posts file
+            - settimeout to check for new posts in posts file (from index.html)
+            - if post made in THIS script, just call this function  */
+        
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/show_all_staff", true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                const res = JSON.parse(xhttp.responseText);
+                var list = document.getElementById('staffs');
+
+                res.forEach((item, index) => {
+                    var entry = document.createElement('li');
+                    entry.appendChild(document.createTextNode(item.name + item.date));
+                    list.appendChild(entry);
+                });
+
+            }
+        }
+        xhttp.send();
+        return;
+        
+    }
+    update_html();
+</script>
 
 <body>
-    <form action="/add_staff" method="post">
-        <label for= "name">Staff full name</label>
+    <div id="leftbox">
+    <form class= "submit_staff" action="/add_staff" method="post">
+        <label for= "name">staff name</label>
         <br>
-        <input type="text" name="name" >
+        <input type="text" name="name" id="name" required maxlength="45" >
         <br>
-        <label for="address">Address</label>
+        <label for="age">Age</label>
         <br>
-        <input type="text" name="address" >
+        <input type="text" name="age" id="age">
+        <br>
+        <label for="date">Date</label>
+        <br>
+        <input type="text" name="date" id="date">
+        <br>
+        <label for="address">address of consultation</label><br>
+        <textarea name="address" rows="10" cols="30" id="address">add text</textarea> 
+        <br>
+        <label for="position">Position</label><br>
+        <textarea name="position" rows="10" cols="30" id="position">(optional)</textarea> 
         <br>
         <input type="submit" value="Submit">
     </form>
 
-    
+    <form class="update_staff" action="/update_staff" method="post" hidden=true id="update_staff">
+        <label for= "original_name"> Original name (do not change) </label>
+        <br>
+        <input type="text" name="ogname" id="original_name" required maxlength="45" >
+        <label for= "name">staff name</label>
+        <br>
+        <input type="text" name="name" id="uname" required maxlength="45" >
+        <br>
+        <label for="age">Age</label>
+        <br>
+        <input type="text" name="age" id="uage">
+        <br>
+        <label for="date">Date</label>
+        <br>
+        <input type="text" name="date" id="udate">
+        <br>
+        <label for="address">address</label><br>
+        <textarea name="address" rows="10" cols="30" id="uaddress">add text</textarea> 
+        <br>
+        <label for="position">Other info</label><br>
+        <textarea name="position" rows="10" cols="30" id="uposition">(optional)</textarea> 
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    </div>
+
+
+    <div id="rightbox">
+    <form class="search_staff" action="/delete_staff" method="post">
+        <input type="text" name="search" id="search">
+        <button type="button" value="Search" onclick=search_staff()>Search</button>
+        <input type="submit" value="Delete staff">
+        <button type="button" value = "Update staff" onclick=setup_update()>Update</button>
+    </form>
+    <br>
+        <ul id="search_results"></ul>
+    </div>
+
+    <div id="middlebox">
+    <ul id="staffs">
+    </ul>
+    </div>
 </body>
