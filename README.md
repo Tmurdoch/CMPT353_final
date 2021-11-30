@@ -23,7 +23,9 @@ simple client server database model
 
 PART B:
 
-react native
+Cassandra
+https://docs.datastax.com/en/developer/nodejs-driver/4.6/
+https://www.instaclustr.com/support/documentation/cassandra/using-cassandra/connect-to-cassandra-with-node-js/
 
 
 
