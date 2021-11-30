@@ -8,9 +8,18 @@
 </head>
 <script>
 
+    // function update_customer() {
+    //     console.log("html update_fn called")
+    //     var xhttp = new XMLHttpRequest();
+    //     xhttp.open("POST", "/update_customer", true);
+    //     xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    //     xhttp.send();
+    //     return;
+
+    // }
+
     function setup_update() { 
         //query database for customer, fill add form, add update button
-        document.getElementById("search_results").innerHTML = "";
         var query = document.getElementById("search").value;
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", "/search_customer/" + query, true);
@@ -21,14 +30,17 @@
                 var list = document.getElementById('search_results');
                 
                 res.forEach((item, index) => {
-                    //fill form, 
-                    document.getElementById("name").value = item.name;
-                    document.getElementById("age").value = item.age;
-                    document.getElementById("date").value = item.date;
-                    document.getElementById("summary").value = item.summary;
-                    document.getElementById("other_info").value = item.other_info;
+                    //fill form,
+                    document.getElementById("original_name").value = item.name; 
+                    document.getElementById("uname").value = item.name;
+                    document.getElementById("uage").value = item.age;
+                    document.getElementById("udate").value = item.date;
+                    document.getElementById("usummary").value = item.summary;
+                    document.getElementById("uother_info").value = item.other_info;
                 });
                 //add update button
+                document.getElementById("update_customer").hidden = false;
+                document.getElementById("submit_customer").hidden = true;
 
             }
         }
@@ -51,7 +63,7 @@
                     console.log(item);
                     //display data on customer
                     var entry = document.createElement('li');
-                    all_info = item.name + ", " + item.age + ", date of inquiry: " + item.date + "Summary:" + "other:" + item.other_info;
+                    all_info = item.name + ", " + item.age + ", date of inquiry: " + item.date + "Summary:" + item.summary + "other:" + item.other_info;
                     var info_string = document.createTextNode(all_info);
                     entry.appendChild(info_string);
                     list.appendChild(entry);
@@ -77,7 +89,7 @@
 
                 res.forEach((item, index) => {
                     var entry = document.createElement('li');
-                    entry.appendChild(document.createTextNode(item.name.toString().concat(item.date.toString())));
+                    entry.appendChild(document.createTextNode(item.name + item.date));
                     list.appendChild(entry);
                 });
 
@@ -113,15 +125,40 @@
         <br>
         <input type="submit" value="Submit">
     </form>
+
+    <form class="update_customer" action="/update_customer" method="post" hidden=true id="update_customer">
+        <label for= "original_name"> Original name (do not change) </label>
+        <br>
+        <input type="text" name="ogname" id="original_name" required maxlength="45" >
+        <label for= "name">Customer name</label>
+        <br>
+        <input type="text" name="name" id="uname" required maxlength="45" >
+        <br>
+        <label for="age">Age</label>
+        <br>
+        <input type="text" name="age" id="uage">
+        <br>
+        <label for="date">Date</label>
+        <br>
+        <input type="text" name="date" id="udate">
+        <br>
+        <label for="summary">Summary of consultation</label><br>
+        <textarea name="summary" rows="10" cols="30" id="usummary">add text</textarea> 
+        <br>
+        <label for="other_info">Other info</label><br>
+        <textarea name="other_info" rows="10" cols="30" id="uother_info">(optional)</textarea> 
+        <br>
+        <input type="submit" value="Submit">
+    </form>
     </div>
 
 
     <div id="rightbox">
     <form class="search_customer" action="/delete_customer" method="post">
         <input type="text" name="search" id="search">
-        <button type="button" onclick=search_customer() value="Search"></button>
+        <button type="button" value="Search" onclick=search_customer()>Search</button>
         <input type="submit" value="Delete Customer">
-        <button type="button" onclick=setup_update() value = "Update Customer"></button>
+        <button type="button" value = "Update Customer" onclick=setup_update()>Update</button>
     </form>
     <br>
         <ul id="search_results"></ul>

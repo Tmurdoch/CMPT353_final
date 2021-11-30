@@ -116,6 +116,33 @@ app.post('/delete_customer', (req, res) => {
     })
 })
 
+app.post('/update_customer', (req, res) => {
+    console.log("update_customer called")
+    var og_name = req.body.ogname;
+    console.log(og_name);
+    var name = req.body.name;
+    var age = req.body.age;
+    var date = req.body.date;
+    var summary = req.body.summary;
+    var other_info = req.body.other_info;
+    //delete customer with name
+    
+    var sql_delete = "DELETE FROM customers WHERE name='" + og_name + "'";
+    connection.query(sql_delete, (err, result) => {
+        if (err) throw err;
+        console.log("DELETE ok");
+    });
+
+    var sql_insert = "INSERT INTO customers (name, age, date, summary, other_info) VALUES ?";
+    var values = [[name, age, date, summary, other_info]];
+    connection.query(sql_insert, [values], (err, result) => {
+        if (err) throw err;
+        console.log("INSERT ok");
+    });
+
+
+});
+
 
 app.get('/createTable', (req, res) => {
 
