@@ -7,6 +7,32 @@
 <!--===============================================================================================-->
 </head>
 <script>
+    function search_customer() {
+        var query = document.getElementById("search").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "/search_customer/" + query, true);
+        xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhttp.onreadystatechange = () => {
+            if (xhttp.readyState == 4 && xhttp.status == 200) {
+                const res = JSON.parse(xhttp.responseText);
+                var list = document.getElementById('search_results');
+                console.log(res);
+                res.forEach((item, index) => {
+                    console.log(item);
+                    //print to list
+                    //add button next to each
+                    var entry = document.createElement('li');
+                    var btn = document.createElement("button");
+                    btn.innerHTML = item.name;
+                    entry.appendChild(btn);
+                    list.appendChild(entry);
+                });
+
+            }
+        }
+        xhttp.send();
+        return;
+    }
     function update_html() {
         /* idea: xml request for posts file
             - settimeout to check for new posts in posts file (from index.html)
@@ -18,12 +44,9 @@
         xhttp.onreadystatechange = () => {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 const res = JSON.parse(xhttp.responseText);
-                console.log("res: ", res);
+                var list = document.getElementById('customers');
+
                 res.forEach((item, index) => {
-                    
-                    console.log(item);
-                    var list = document.getElementById('customers');
-                    
                     var entry = document.createElement('li');
                     entry.appendChild(document.createTextNode(item.name.toString().concat(item.date.toString())));
                     list.appendChild(entry);
@@ -39,7 +62,8 @@
 </script>
 
 <body>
-    <form action="/add_customer" method="post">
+    <div id="leftbox">
+    <form class= "submit_customer" action="/add_customer" method="post">
         <label for= "name">Customer name</label>
         <br>
         <input type="text" name="name" id="name" required maxlength="45" >
@@ -60,9 +84,20 @@
         <br>
         <input type="submit" value="Submit">
     </form>
+    </div>
 
 
-    <div id="answer">
+    <div id="rightbox">
+    <form class="search_customer">
+        <input type="text" name="search" id="search">
+        <button type="button" onclick=search_customer() value="Search"></button>
+
+    </form>
+    <br>
+        <ul id="search_results"></ul>
+    </div>
+
+    <div id="middlebox">
     <ul id="customers">
     </ul>
     </div>

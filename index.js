@@ -50,13 +50,25 @@ app.post('/login', (req, res) => {
 
 });
 
+app.get('/search_customer/:search', (req, res) => {
+    console.log(req.params);
+    var sql = "SELECT * FROM customers WHERE name like '".concat(req.params.search + "'");
+    
+
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        res.send(JSON.stringify(result))
+        res.end();
+    });
+
+});
+
 app.get('/show_all_customers', (req, res) => {
         //query the db and get customers back, display in html page for landing_staff somehow
         //TODO: have onclick to select from all customers?
         var sql = "SELECT * FROM customers";
         connection.query(sql, (err, result) =>{ 
             if (err) throw err;
-            
             res.send(JSON.stringify(result))
             res.end()
         });

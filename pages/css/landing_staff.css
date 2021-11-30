@@ -13,6 +13,12 @@ ul {
 li {
     display:block;
 }
+#leftbox {
+    float:left; 
+    background:Red;
+    width:25%;
+    height:280px;
+}
 #middlebox{
     float:left; 
     background:Green;
@@ -29,6 +35,13 @@ h1{
     color:green;
     text-align:center;
 }
-form { 
+.submit_customer { 
+    float:center;
+}
+.search_customer {
     float:left;
 }
+/* button{
+    height: 10px;
+    width: 50px;
+} */
